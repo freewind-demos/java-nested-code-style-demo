@@ -11,7 +11,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class Hello extends Application {
+public class NormalStyle extends Application {
 
     private Label label = new Label("Hello, JavaFX!");
 
@@ -22,21 +22,24 @@ public class Hello extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Hello");
-        VBox root = new VBox() {{
-            getChildren().add(new MenuBar() {{
-                getMenus().add(new Menu("Menu") {{
-                    getItems().add(new MenuItem("change content") {{
-                        this.setOnAction(new EventHandler<ActionEvent>() {
-                            public void handle(ActionEvent event) {
-                                label.setText("Changed!");
-                            }
-                        });
-                    }});
-                }});
-            }});
-            getChildren().add(label);
-        }};
+        VBox root = new VBox();
+        root.getChildren().addAll(createMenuBar(), label);
         primaryStage.setScene(new Scene(root, 300, 250));
         primaryStage.show();
     }
+
+    private MenuBar createMenuBar() {
+        MenuBar menuBar = new MenuBar();
+        Menu menu = new Menu("Menu");
+        MenuItem item = new MenuItem("change content");
+        item.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                label.setText("Changed!");
+            }
+        });
+        menu.getItems().add(item);
+        menuBar.getMenus().add(menu);
+        return menuBar;
+    }
+
 }
